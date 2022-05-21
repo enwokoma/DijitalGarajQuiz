@@ -23,6 +23,9 @@
             android:name=".ShowInformationActivity"
             android:exported="true" />
         <activity
+            android:name=".HiddenEmailActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
