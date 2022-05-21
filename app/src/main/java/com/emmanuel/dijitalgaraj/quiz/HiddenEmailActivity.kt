@@ -13,7 +13,9 @@ class HiddenEmailActivity : AppCompatActivity() {
         hiddenEmailBinding = ActivityHiddenEmailBinding.inflate(layoutInflater)
         setContentView(hiddenEmailBinding.root)
 
-        val results = intent.getStringExtra("json_results")
+        val results = intent.getStringExtra("testEmail")
+
+        hiddenEmailBinding.hiddenEmailText.text = results
 
     }
 }

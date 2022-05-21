@@ -17,6 +17,7 @@ import org.json.JSONObject
 import retrofit2.Retrofit
 
 import com.emmanuel.dijitalgaraj.quiz.databinding.ActivityMainBinding
+import com.emmanuel.dijitalgaraj.quiz.utils.TinyDB
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.putButton.setOnClickListener { fetchHash() }
+        binding.getEmailButton.setOnClickListener { getEmailFromHash() }
     }
 
     private fun fetchHash() {
@@ -84,6 +86,25 @@ class MainActivity : AppCompatActivity() {
                     Log.e("RETROFIT_ERROR", response.code().toString())
 
                 }
+            }
+        }
+    }
+
+    private fun getEmailFromHash() {
+        val myEmail = "nwokomaemmanuel@gmail.com"
+        val tinyDB = TinyDB(applicationContext)
+        val hashKey = tinyDB.getString("savedHashKey")!!
+
+
+        // Get Hash from Clipboard
+
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                //searchHash(hashKey, myEmail)
+
+                val intent = Intent(this@MainActivity, HiddenEmailActivity::class.java)
+                intent.putExtra("testEmail", searchHash(hashKey, myEmail))
+                this@MainActivity.startActivity(intent)
             }
         }
     }
