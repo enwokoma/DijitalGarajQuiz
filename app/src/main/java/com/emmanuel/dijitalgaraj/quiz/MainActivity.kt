@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity() {
                     )
                     Log.d("Pretty Printed JSON :", prettyJson)
 
+                    val intent = Intent(this@MainActivity, ShowInformationActivity::class.java)
+                    intent.putExtra("json_results", prettyJson)
+                    this@MainActivity.startActivity(intent)
+
                 } else {
 
                     Log.e("RETROFIT_ERROR", response.code().toString())
