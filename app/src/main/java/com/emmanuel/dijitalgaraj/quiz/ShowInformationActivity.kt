@@ -56,7 +56,7 @@ class ShowInformationActivity : AppCompatActivity() {
         saveHash.putString("savedHashKey", test.text.toString())
 
         Log.d("Test TinyDB", saveHash.getString("savedHashKey")!!)
-        Toast.makeText(this, getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
     }
 
     private fun showButtonProgress(button: Button) {
@@ -106,14 +106,6 @@ class ShowInformationActivity : AppCompatActivity() {
                         applicationContext.startActivity(intent)
                     }
                 }
-
-                /*Thread {
-                    val hiddenEmail = searchHash(hashKey, myEmail)
-                    val intent = Intent(applicationContext, HiddenEmailActivity::class.java)
-                    intent.putExtra("testEmail", hiddenEmail)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    applicationContext.startActivity(intent)
-                }.start()*/
             }
         }
     }

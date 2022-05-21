@@ -1,9 +1,9 @@
 package com.emmanuel.dijitalgaraj.quiz
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.emmanuel.dijitalgaraj.quiz.databinding.ActivityHiddenEmailBinding
-import com.emmanuel.dijitalgaraj.quiz.databinding.ActivityShowInformationBinding
 
 class HiddenEmailActivity : AppCompatActivity() {
     private lateinit var hiddenEmailBinding: ActivityHiddenEmailBinding
@@ -16,6 +16,6 @@ class HiddenEmailActivity : AppCompatActivity() {
         val results = intent.getStringExtra("testEmail")
 
         hiddenEmailBinding.hiddenEmailText.text = results
-
+        Log.d("Found Hidden Email: ", results.toString())
     }
 }
