@@ -73,6 +73,10 @@ class MainActivity : AppCompatActivity() {
 
                     val intent = Intent(this@MainActivity, ShowInformationActivity::class.java)
                     intent.putExtra("json_results", prettyJson)
+
+                    // Get Hash from JSON
+                    val getHash = JSONObject(prettyJson).get("hash").toString()
+                    intent.putExtra("hashKey", getHash)
                     this@MainActivity.startActivity(intent)
 
                 } else {

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dijital Garaj Quiz</string>
+    <string name="copied_to_clipboard">Copied to Clipboard</string>
 </resources>
