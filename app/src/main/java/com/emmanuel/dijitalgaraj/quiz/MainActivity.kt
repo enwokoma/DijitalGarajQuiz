@@ -1,21 +1,31 @@
 package com.emmanuel.dijitalgaraj.quiz
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.emmanuel.dijitalgaraj.quiz.databinding.ActivityMainBinding
 import com.emmanuel.dijitalgaraj.quiz.interfaces.InterfaceAPI
+import com.github.razir.progressbutton.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import java.io.IOException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,7 +35,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.putButton.setOnClickListener { fetchHash() }
+        // bind button to activity lifecycle
+        bindProgressButton(binding.putButton)
+        val button = binding.putButton
+        button.attachTextChangeAnimator()
+        button.setOnClickListener {
+            showButtonProgress(button)
+        }
+    }
+
+    private fun showButtonProgress(button: Button) {
+        val executor: ExecutorService = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+
+        executor.execute {
+            //Background work here
+            handler.post {
+                //UI Thread work here
+                button.showProgress {
+                    buttonTextRes = R.string.loading
+                    progressColor = Color.WHITE
+                    gravity = DrawableButton.GRAVITY_TEXT_START
+                }
+                fetchHash()
+                button.isEnabled = true
+            }
+        }
     }
 
     private fun fetchHash() = GlobalScope.launch(Dispatchers.Main) {
@@ -76,6 +111,8 @@ class MainActivity : AppCompatActivity() {
                 // Get Hash from JSON
                 val getHash = JSONObject(prettyJson).get("hash").toString()
                 intent.putExtra("hashKey", getHash)
+                val button = binding.putButton
+                button.hideProgress(R.string.put_request_btn)
                 this@MainActivity.startActivity(intent)
 
             } else {
